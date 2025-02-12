@@ -98,9 +98,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (data.chart && data.chart.result && data.chart.result.length > 0) {
         const chartData = data.chart.result[0];
-        const timestamps = chartData.timestamp.map((ts) =>
-          new Date(ts * 1000).toLocaleTimeString()
-        );
+        let timestamps;
+        
+        if (range === "1d") {
+          timestamps = chartData.timestamp.map((ts) =>
+            new Date(ts * 1000).toLocaleTimeString()
+          );
+        } else {
+          timestamps = chartData.timestamp.map((ts) =>
+            new Date(ts * 1000).toLocaleDateString()
+          );
+        }
         console.log(timestamps);
         const prices = chartData.indicators.quote[0].close;
 
