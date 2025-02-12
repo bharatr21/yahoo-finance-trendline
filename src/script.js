@@ -23,7 +23,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       plugins: { legend: { display: true } },
       scales: {
         x: { title: { display: true, text: "Time" } },
-        y: { title: { display: true, text: "Price ($)" } },
+        y: { title: { display: true, text: "Price ($)" }, 
+            //  beginAtZero: true  COMMENTED IT OUT BECAUSE IT DOESNT SHOW CHANGES IN PRICE CLEARLY
+           },
       },
     },
   });
@@ -43,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         {
           method: "GET",
           headers: {
-            "X-RapidAPI-Key": "",
+            "X-RapidAPI-Key": "0a38873a76msh773b6b63629bf66p1811a7jsn9b0937bb406c",
             "X-RapidAPI-Host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
           },
         }
@@ -85,7 +87,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const options = {
       method: "GET",
       headers: {
-        "X-RapidAPI-Key": "",
+        "X-RapidAPI-Key": "0a38873a76msh773b6b63629bf66p1811a7jsn9b0937bb406c",
         "X-RapidAPI-Host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
       },
     };
@@ -99,6 +101,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const timestamps = chartData.timestamp.map((ts) =>
           new Date(ts * 1000).toLocaleTimeString()
         );
+        console.log(timestamps);
         const prices = chartData.indicators.quote[0].close;
 
         updateChart({ labels: timestamps, prices });
