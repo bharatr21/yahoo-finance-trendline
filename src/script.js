@@ -53,7 +53,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       const data = await response.json();
       stockSelector.innerHTML = ""; // Clear previous options
 
-      console.log(data);
+      console.log("Stock data from API:", data); // shows the data from the API
+      console.log("Data.marketSummaryAndSparkResponse from API:", data.marketSummaryAndSparkResponse); // shows the data.marketSummaryAndSparkResponse from the API (1 level deep)
+      console.log("Data.marketSummaryAndSparkResponse.result from API:", data.marketSummaryAndSparkResponse.result); // shows the data.marketSummaryAndSparkResponse.result from the API (2 levels deep)
 
       data.marketSummaryAndSparkResponse.result.forEach((market) => {
         let option = document.createElement("option");
