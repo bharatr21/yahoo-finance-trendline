@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const timeRangeSelector = document.getElementById("timeRangeSelector");
 
   // Initialize Chart.js with placeholder data
+
+  //TO DO: Code the stockChart object (line chart) with the following options: type, data, options
   const stockChart = new Chart(ctx, {
     type: "line",
     data: {
@@ -40,39 +42,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Fetch available stocks for dropdown
   async function loadStockOptions() {
     try {
-      const response = await fetch(
-        "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-summary",
-        {
-          method: "GET",
-          headers: {
-            "X-RapidAPI-Key": "0a38873a76msh773b6b63629bf66p1811a7jsn9b0937bb406c",
-            "X-RapidAPI-Host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
-          },
-        }
-      );
-      const data = await response.json();
+      // Fetch stock data from API with options and headers and scrape the response {TO DO}
+
       stockSelector.innerHTML = ""; // Clear previous options
 
+      /*
       console.log("Stock data from API:", data); // shows the data from the API
       console.log("Data.marketSummaryAndSparkResponse from API:", data.marketSummaryAndSparkResponse); // shows the data.marketSummaryAndSparkResponse from the API (1 level deep)
       console.log("Data.marketSummaryAndSparkResponse.result from API:", data.marketSummaryAndSparkResponse.result); // shows the data.marketSummaryAndSparkResponse.result from the API (2 levels deep)
+      */
 
-      data.marketSummaryAndSparkResponse.result.forEach((market) => {
-        let option = document.createElement("option");
-        option.value = market.symbol;
-        option.textContent = `${market.shortName} (${market.symbol})`;
-        stockSelector.appendChild(option);
-      });
+      // TO DO: Loop through the data.marketSummaryAndSparkResponse.result array and add each stock as an option in the dropdown
+      
 
-      // Load default stock data (first stock in list)
-      if (data.marketSummaryAndSparkResponse.result.length > 0) {
-        console.log(timeRangeSelector.value);
-        fetchStockData(
-          data.marketSummaryAndSparkResponse.result[0].symbol,
-          "1d",
-          timeRangeSelector.value
-        );
-      }
+      // TO DO: Load the default stock data for the first stock in the chart below
+
     } catch (error) {
       console.error("Error loading stocks:", error);
       stockSelector.innerHTML = `<option value="">Error loading stocks</option>`;
@@ -80,50 +64,43 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Fetch stock data from API
-  async function fetchStockData(symbol, interval = "2m", range = "1mo") {
+  // TO DO: Add suitable arguments for the function
+  async function fetchStockData() {
     if (range == "1d") {
       interval = "10m";
     }
-    const url = `https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v3/get-chart?symbol=${symbol}&interval=${interval}&range=${range}&region=US`;
-
-    const options = {
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Key": "0a38873a76msh773b6b63629bf66p1811a7jsn9b0937bb406c",
-        "X-RapidAPI-Host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
-      },
-    };
+    // TO DO: URL to fetch stock data from API and add options and headers
 
     try {
-      const response = await fetch(url, options);
+      // const response = await fetch(url, options);
       
-      const data = await response.json();
-      console.log("Raw response from API:", data); // shows the raw data from the API
-      console.log("Data.chart from API:", data.chart); // shows the data.chart from the API (1 level deep)
-      console.log("Data.chart.result from API:", data.chart.result); // shows the data.chart.result from the API (2 levels deep)
-      console.log("Data.chart.result[0] from API:", data.chart.result[0]); // shows the data.chart.result[0] from the API (3 levels deep)
+      // const data = await response.json();
+      // console.log("Raw response from API:", data); // shows the raw data from the API
+      // console.log("Data.chart from API:", data.chart); // shows the data.chart from the API (1 level deep)
+      // console.log("Data.chart.result from API:", data.chart.result); // shows the data.chart.result from the API (2 levels deep)
+      // console.log("Data.chart.result[0] from API:", data.chart.result[0]); // shows the data.chart.result[0] from the API (3 levels deep)
 
 
-      if (data.chart && data.chart.result && data.chart.result.length > 0) {
-        const chartData = data.chart.result[0];
-        let timestamps;
+      // if (data.chart && data.chart.result && data.chart.result.length > 0) {
+      //   const chartData = data.chart.result[0];
+      //   let timestamps;
         
-        if (range === "1d") {
-          timestamps = chartData.timestamp.map((ts) =>
-            new Date(ts * 1000).toLocaleTimeString()
-          );
-        } else {
-          timestamps = chartData.timestamp.map((ts) =>
-            new Date(ts * 1000).toLocaleDateString()
-          );
-        }
-        console.log(timestamps);
-        const prices = chartData.indicators.quote[0].close;
+      //   if (range === "1d") {
+      //     timestamps = chartData.timestamp.map((ts) =>
+      //       new Date(ts * 1000).toLocaleTimeString()
+      //     );
+      //   } else {
+      //     timestamps = chartData.timestamp.map((ts) =>
+      //       new Date(ts * 1000).toLocaleDateString()
+      //     );
+      //   }
+      //   console.log(timestamps);
+      //   const prices = chartData.indicators.quote[0].close;
 
-        updateChart({ labels: timestamps, prices });
-      } else {
-        console.error("Invalid data received", data);
-      }
+      //   updateChart({ labels: timestamps, prices });
+      // } else {
+      //   console.error("Invalid data received", data);
+      // }
     } catch (error) {
       console.error("Error fetching stock data:", error);
     }
