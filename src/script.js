@@ -94,7 +94,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const response = await fetch(url, options);
+      
       const data = await response.json();
+      console.log("Raw response from API:", data); // shows the raw data from the API
+      console.log("Data.chart from API:", data.chart); // shows the data.chart from the API (1 level deep)
+      console.log("Data.chart.result from API:", data.chart.result); // shows the data.chart.result from the API (2 levels deep)
+      console.log("Data.chart.result[0] from API:", data.chart.result[0]); // shows the data.chart.result[0] from the API (3 levels deep)
+
 
       if (data.chart && data.chart.result && data.chart.result.length > 0) {
         const chartData = data.chart.result[0];
